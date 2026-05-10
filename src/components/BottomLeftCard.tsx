@@ -21,7 +21,7 @@ export default function BottomLeftCard() {
 
       {/* Button */}
       <motion.a
-        href="#showroom"
+        href="https://www.instagram.com/la.viranda/"
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         className="flex items-center bg-white rounded-full pl-1.5 pr-5 py-1.5 gap-2 hover:bg-white/90 transition-colors self-start group"

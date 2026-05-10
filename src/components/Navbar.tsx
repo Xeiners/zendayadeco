@@ -3,15 +3,25 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronRight, ArrowUpRight } from 'lucide-react';
 
 const menuItems = [
-  { label: 'Collections', hasDropdown: false },
-  { label: 'Showroom', hasDropdown: true },
-  { label: 'Services', hasDropdown: false },
-  { label: 'Contact', hasDropdown: false },
+  { label: 'Collections', targetId: 'collections', hasDropdown: false },
+  { label: 'Showroom', targetId: 'showroom', hasDropdown: true },
+  { label: 'Services', targetId: 'services', hasDropdown: false },
+  { label: 'Contact', targetId: 'contact', hasDropdown: false },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const scrollToSection = (targetId: string) => {
+    const targetSection = document.getElementById(targetId);
+
+    if (targetSection) {
+      targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    setIsOpen(false);
+  };
 
   // Détecte le scroll
   useEffect(() => {
@@ -25,14 +35,14 @@ export default function Navbar() {
 
   return (
     <motion.nav
-      initial={{ y: -50, opacity: 0 }}
+      initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.4 ,ease: 'easeOut' }}
+      transition={{ duration: 0.6 ,ease: 'easeOut' }}
       className={`
-        fixed top-6 left-0 right-0 z-50 max-w-[1520px]
+        fixed top-6 left-0 right-0 z-50 max-w-380
         transition-all duration-500 ease-in-out
         ${isScrolled 
-          ? 'w-[95%] mx-auto py-2 px-4 bg-white/30 backdrop-blur-xl border scale-95 border-white/40 rounded-full shadow-l' 
+          ? 'w-[95%] mx-auto py-2 px-4 bg-white/40 backdrop-blur-xl border scale-95 border-white/40 rounded-full shadow-l' 
           : 'w-[95%] mx-auto py-2 px-4 bg-transparent border border-transparent'
         }
       `}
@@ -57,9 +67,15 @@ export default function Navbar() {
           {menuItems.map((item) => (
             <li
               key={item.label}
-              className="cursor-pointer hover:opacity-70 transition-opacity flex items-center gap-1 group"
+              className="hover:opacity-70 transition-opacity flex items-center gap-1 group"
             >
-              {item.label}
+              <button
+                type="button"
+                onClick={() => scrollToSection(item.targetId)}
+                className="flex items-center gap-1 cursor-pointer"
+              >
+                {item.label}
+              </button>
               {item.hasDropdown && (
                 <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
               )}
@@ -80,10 +96,11 @@ export default function Navbar() {
 
         {/* Right Button */}
         <div className="flex-1 flex justify-end">
-          <motion.a
-            href="#contact"
+          <motion.button
+            type="button"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
+            onClick={() => scrollToSection('contact')}
             className={`
               hidden md:flex items-center rounded-full pl-2 pr-4 md:pr-6 py-1.5 md:py-2 gap-2 md:gap-3 border border-white/0
               transition-colors duration-300 group
@@ -100,7 +117,7 @@ export default function Navbar() {
               <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 text-white" />
             </div>
             <span className="text-xs md:text-sm font-normal">Prendre RDV</span>
-          </motion.a>
+          </motion.button>
 
           {/* Mobile Hamburger */}
           <button
@@ -126,13 +143,13 @@ export default function Navbar() {
             <ul className="space-y-4">
               {menuItems.map((item) => (
                 <li key={item.label}>
-                  <a
-                    href="#"
-                    onClick={() => setIsOpen(false)}
+                  <button
+                    type="button"
+                    onClick={() => scrollToSection(item.targetId)}
                     className="block font-sans text-base text-sage/80 hover:text-sage transition-colors"
                   >
                     {item.label}
-                  </a>
+                  </button>
                 </li>
               ))}
               <li className="pt-4">

@@ -9,7 +9,7 @@ const easeOutQuad = "easeOut";
 export default function Hero() {
   return (
     <div className="w-full h-screen flex items-center justify-center p-3 md:p-5 bg-linen">
-      <section className="relative w-full max-w-[1536px] h-full rounded-[1.5rem] md:rounded-[3rem] overflow-hidden shadow-none flex flex-col items-center bg-white/10 group">
+      <section className="relative w-full max-w-[1536px] h-full rounded-3xl md:rounded-[3rem] overflow-hidden shadow-none flex flex-col items-center bg-white/10 group">
         {/* Image Background */}
         <div className="absolute inset-0 w-full h-full z-0">
           {/* <img
@@ -66,7 +66,7 @@ export default function Hero() {
               whileTap={{ scale: 0.98 }}
               className="mt-8 inline-flex items-center gap-2 bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full px-6 py-3 font-sans text-sm hover:bg-white/30 transition-colors"
             >
-              Découvrir les collections
+              Découvrir les créations
             </motion.a>
           </div>
 

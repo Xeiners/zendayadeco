@@ -1,12 +1,21 @@
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-
+import BentoGallery from './components/BentoGallery';
+import Services from './components/Services';
+import Contact from './components/Contact';
+import MethodSection from './components/Method';
 
 export default function App() {
   return (
-    <main className="min-h-screen h-[150vh] bg-linen">
+    <div className="min-h-screen bg-linen">
       <Navbar />
-      <Hero />
-    </main>
+      <main>
+        <Hero />
+        <BentoGallery />
+        <Services />
+        <MethodSection />
+        <Contact />
+      </main>
+    </div>
   );
 }
