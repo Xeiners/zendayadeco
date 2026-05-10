@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import Navbar from './Navbar';
 // import HeroBadge from './Herobadge';
 import BottomLeftCard from './BottomLeftCard';
 import BottomRightCorner from './BottomRightCorner';
