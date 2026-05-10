@@ -116,23 +116,28 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
         const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
         });
-        
+
         const data = await response.json();
-        
+
+        if (!response.ok) {
+        console.error('Erreur API:', data);
+        alert(data.error || 'Erreur lors de l’envoi');
+        return;
+        }
+
         if (data.success) {
         setIsSubmitted(true);
         setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-        } else {
-        alert('Erreur lors de l\'envoi');
         }
     } catch (error) {
+        console.error('Erreur réseau:', error);
         alert('Erreur réseau');
     }
   };
