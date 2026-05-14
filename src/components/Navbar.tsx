@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronRight, ArrowUpRight } from 'lucide-react';
 
@@ -12,8 +13,27 @@ const menuItems = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isShowroomPage = location.pathname === '/showroom';
+
+  const goToHome = () => {
+    setIsOpen(false);
+    navigate('/');
+  };
 
   const scrollToSection = (targetId: string) => {
+    if (targetId === 'showroom') {
+      navigate('/showroom');
+      setIsOpen(false);
+      return;
+    }
+
+    if (isShowroomPage) {
+      goToHome();
+      return;
+    }
+
     const targetSection = document.getElementById(targetId);
 
     if (targetSection) {
@@ -23,15 +43,32 @@ export default function Navbar() {
     setIsOpen(false);
   };
 
+  const goToHomeSection = (targetId: string) => {
+    setIsOpen(false);
+
+    if (location.pathname !== '/') {
+      navigate('/');
+      window.setTimeout(() => {
+        const targetSection = document.getElementById(targetId);
+        targetSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+      return;
+    }
+
+    const targetSection = document.getElementById(targetId);
+    targetSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   // Détecte le scroll
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50); // true si scroll > 50px
+      setIsScrolled(window.scrollY > 50 || isShowroomPage);
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isShowroomPage]);
 
   return (
     <motion.nav
@@ -41,7 +78,7 @@ export default function Navbar() {
       className={`
         fixed top-6 left-0 right-0 z-50 max-w-380
         transition-all duration-500 ease-in-out
-        ${isScrolled 
+          ${isScrolled 
           ? 'w-[95%] mx-auto py-2 px-4 bg-white/40 backdrop-blur-xl border scale-95 border-white/40 rounded-full shadow-l' 
           : 'w-[95%] mx-auto py-2 px-4 bg-transparent border border-transparent'
         }
@@ -76,9 +113,7 @@ export default function Navbar() {
               >
                 {item.label}
               </button>
-              {item.hasDropdown && (
-                <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-              )}
+              {item.hasDropdown && <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />}
             </li>
           ))}
         </ul>
@@ -100,7 +135,7 @@ export default function Navbar() {
             type="button"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => scrollToSection('contact')}
+            onClick={() => (isShowroomPage ? goToHome() : scrollToSection('contact'))}
             className={`
               hidden md:flex items-center rounded-full pl-2 pr-4 md:pr-6 py-1.5 md:py-2 gap-2 md:gap-3 border border-white/0
               transition-colors duration-300 group
@@ -153,13 +188,13 @@ export default function Navbar() {
                 </li>
               ))}
               <li className="pt-4">
-                <a
-                  href="#contact"
-                  onClick={() => setIsOpen(false)}
+                <button
+                  type="button"
+                  onClick={() => (isShowroomPage ? goToHome() : scrollToSection('contact'))}
                   className="inline-flex items-center bg-sage text-white rounded-full px-6 py-2.5 font-sans text-sm"
                 >
                   Prendre RDV
-                </a>
+                </button>
               </li>
             </ul>
           </motion.div>

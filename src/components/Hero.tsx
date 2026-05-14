@@ -1,9 +1,11 @@
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 // import HeroBadge from './Herobadge';
 import BottomLeftCard from './BottomLeftCard';
 import BottomRightCorner from './BottomRightCorner';
 
 const easeOutQuad = "easeOut";
+const MotionLink = motion(Link);
 
 export default function Hero() {
   return (
@@ -56,8 +58,8 @@ export default function Hero() {
               Des créations uniques en rotin, céramique et matières naturelles pour sublimer votre intérieur.
             </motion.p>
 
-            <motion.a
-              href="#collections"
+            <MotionLink
+              to="/showroom"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6, ease: easeOutQuad }}
@@ -66,7 +68,7 @@ export default function Hero() {
               className="mt-8 inline-flex items-center gap-2 bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full px-6 py-3 font-sans text-sm hover:bg-white/30 transition-colors"
             >
               Découvrir les créations
-            </motion.a>
+            </MotionLink>
           </div>
 
           <BottomLeftCard />
