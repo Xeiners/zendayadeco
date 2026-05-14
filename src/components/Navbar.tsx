@@ -43,22 +43,6 @@ export default function Navbar() {
     setIsOpen(false);
   };
 
-  const goToHomeSection = (targetId: string) => {
-    setIsOpen(false);
-
-    if (location.pathname !== '/') {
-      navigate('/');
-      window.setTimeout(() => {
-        const targetSection = document.getElementById(targetId);
-        targetSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 50);
-      return;
-    }
-
-    const targetSection = document.getElementById(targetId);
-    targetSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
   // Détecte le scroll
   useEffect(() => {
     const handleScroll = () => {

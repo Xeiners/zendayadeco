@@ -19,7 +19,7 @@ function parseCSVRow(row: string): string[] {
   return result;
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(_req: VercelRequest, res: VercelResponse) {
   const sheetId = process.env.GOOGLE_SHEET_ID;
 
   if (!sheetId) {
